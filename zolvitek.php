@@ -2,7 +2,7 @@
  <html>
     <head>
 
-    <link type="text/css" rel="stylesheet" href="stylesheet.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheet.css" />
     <title>ZOLVITEK</title>
 
     </head>
@@ -16,7 +16,7 @@
 
    			 <div id="title_logo">
 
-    	     <img id="zlogo" src="/i/logo.jpg" />
+    	     <img id="zlogo" src="/images/logo.jpg" />
 
    			 <div id="title_zolvitek">ZOLVITEK: </div>
 			 <div id="flavor_text">Solving Technologies</div>
