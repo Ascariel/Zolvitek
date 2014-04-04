@@ -115,9 +115,9 @@
 
 
 
-		 <a class="body_section_links" href="/linkus.php">
+		 <a class="body_section_links" href="/blog.php">
 		  <div class="body_links">
-         	 <h4>Link Us</h4>
+         	 <h4>Blog Updates</h4>
          	 <p>So you loved this experience? Help Zolvitek by linking us to your website!</p>
           </div>
       	 </a>

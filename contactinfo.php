@@ -26,8 +26,16 @@
 <body>
 <?php include("includes/zheader.php")?>
 
+<div class="container" style="padding-left:8%";>
 
 
+<style>
+
+</style>
+<?php include("newcontactus.php") ?>
+
+</div>
+<br>
 <?php include("includes/zfooter.php")?>
 </body>
 

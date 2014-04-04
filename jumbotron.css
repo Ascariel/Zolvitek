@@ -1,0 +1,37 @@
+
+#catch_phrase{
+	text-align:center;
+	padding-left: 60px;
+	padding-right: 100px;
+	margin-top: -30px;
+
+	width: 900px;
+}
+
+.jumbotron{
+
+	background: url("/images/kitty_website.jpg") no-repeat 50% 30%;
+	padding-bottom:150px;
+	padding-top: 100px
+}
+
+
+#logo {
+
+	height: 40px;
+	width: 40px;
+	float: left;
+	margin-left: -10px;
+	border-radius: 15px;
+	margin-right: 10px;
+	margin-top: 5px;
+
+}
+
+
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
