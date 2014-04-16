@@ -181,8 +181,8 @@ $(document).ready(function(){
 		var email = $("#input_3").val();
 		var $atPos = email.indexOf('@');
 		var $dotPos = email.indexOf('.', $atPos);
-		var $validEmail = ($atPos<1 || $dotPos<1 || ($dotPos - $atPos)<2)
-		if($validEmail){
+		var $invalidEmail = ($atPos<1 || $dotPos<1 || ($dotPos - $atPos)<2);
+		if($invalidEmail){
 			$("#input_3").css('border', '#FF4D4D solid 1.7px');
 			$("#input_3").focus();
 			if(name == ""){
@@ -213,38 +213,46 @@ $(document).ready(function(){
 			//alert('asdasdasda');
 		}
 
-		else if($validEmail){
+		else if($invalidEmail){
 		$('#ajax').html("Please use a valid email format (example@gmail.com)");
 		$('#ajax').css('color', 'red');
 		}
 
-		else{
+			else{
 
 
-		$.ajax({
-			url: "ajaxprocessing.php",
-			dataType: "html",
-			data : {
-				sname: name,
-				semail: email,
-				smessage: message,
-				sajax: true
-			},
-			success: function(response){
-				$('#ajax').css('color', 'green');
-				$("#ajax").html("...Sending your request...Wait a few seconds...").fadeOut(2000, function(){
-						$("#ajax").html("Your message has been sent, thanks for aplying!").fadeIn(400);
-				});
-				$('#input_1').val('');
-				$('#input_3').val('');
-				$('#input_4').val('');
-			//	alert(response);
-			},
-			error: function(xhr, textStatus, errorThrown) {
+			$.ajax({
+				url: "ajaxprocessing.php",
+				dataType: "html",
+				data : {
+					sname: name,
+					semail: email,
+					smessage: message,
+					sajax: true
+				},
+				success: function(response){
+					if(response == 0){
 
-			}
+					$('#ajax').css('color', 'red');
+					$("#ajax").html("There's format errors in your form, please be careful").fadeIn(1500);
+						return false;
 
-		});
+					}
+
+					$('#ajax').css('color', 'green');
+					$("#ajax").html("...Sending your request...Wait a few seconds...").fadeOut(2000, function(){
+							$("#ajax").html("Your message has been sent, thanks for aplying!").fadeIn(400);
+					});
+					$('#input_1').val('');
+					$('#input_3').val('');
+					$('#input_4').val('');
+
+				},
+				error: function(xhr, textStatus, errorThrown) {
+
+				}
+
+			}); //Ajax closure
 
 			}
 

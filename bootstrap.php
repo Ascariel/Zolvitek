@@ -28,9 +28,15 @@
 $(document).ready(function(){
 	$('#login_button').click(function(event){
 		event.preventDefault();
-		$('#login_div').fadeIn('slow');
-			setTimeout(function(){ $('#login_div').fadeOut('slow'); }, 6000);
+		$('#muted_layer').fadeIn(800);
+		$('#login_div').fadeIn(800);
+		//setTimeout(function(){ $('#login_div').fadeOut('slow'); }, 6000);
 
+	});
+	$('#login_submit').click(function(event){
+		event.preventDefault();
+		$('#login_div').fadeOut(800);
+		$('#muted_layer').fadeOut(800);
 	});
 
 });
@@ -40,9 +46,52 @@ $(document).ready(function(){
 
   <body>
 
+  <div id="muted_layer" style="width:100%; height: 1000px; display:none; opacity: 0.7; position:absolute; z-index: 2;background-color: black;border: 2px solid black;margin-top: -50px;">
+  </div><!-- /MUTED LAYER -->
+
+  <!-- SIGN UP POPUP-->
+
+<div id="login_div" style="height: 450px; width: 450px; position: absolute; left: 30%; top: 10%; border: 2px solid black; border-radius: 10px; background: url('/images/popuporangebkgrnd.jpg') no-repeat center center ; z-index: 3; display: none;">
+	<div style="padding:5%;">
+	<form class="form-horizontal" role="form">
+	  <div class="form-group">
+	  <div style="text-align:center; margin-top:2%; margin-bottom:10%;">
+	  	<label><h1 style="color: black;">Login Form</h1></label>
+	  </div>
+	    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+	    <div class="col-sm-10">
+	      <input class="form-control" id="inputEmail3" placeholder="Email" type="email">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+	    <div class="col-sm-10">
+	      <input class="form-control" id="inputPassword3" placeholder="Password" type="password">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+	      <div class="checkbox">
+	        <label>
+	          <input type="checkbox"> Remember me
+	        </label>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+	      <button style=" color: white; background-color: green; border:none;" id="login_submit" type="submit" class="btn btn-default"><strong>Log in</strong></button>
+	    </div>
+	  </div>
+	</form>
+  </div>
+
+</div>
+
+</div><!--LOGIN DIV END -->
 
 
-    <div class="container">
+    <div class="container" style="position:relative; z-index:1">
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a class="home" href="/testy.php">Home</a></li>
@@ -56,18 +105,7 @@ $(document).ready(function(){
       </div>
 
 
-	<!-- SIGN UP POPUP-->
 
-	<div  id="login_div" style='height:450px; width:400px; text-align:center; position:absolute; margin-left:10%; border:2px solid black; background-color:#FF8C00; z-index:2; display:none;' >
-
-    	<div class="row">
-    		<div class="col-md-12">
-    		<h1>Members Log In</h1>
-		</div>
-
-
-    	</div>
-	</div>
 
 		<!-- Main Title Screen -->
       <div class="jumbotron">
@@ -167,8 +205,10 @@ $(document).ready(function(){
 
 
 
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
   </body>
 </html>
+

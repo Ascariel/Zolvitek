@@ -63,16 +63,19 @@ if (mysqli_connect_errno())
 }
 
 
-	//DEFINE TITLE AND BODY INTO VARIABLES, FROM DE SUBMIT FORM
-//$title= $_POST[title];
-//$body= $_POST[body];
+
+
 //INSERT TITLE AND BODY INTO TABLE
 
 if(isset($_POST['title']) && isset($_POST['body'])){
 
-
+	//DEFINE TITLE AND BODY INTO VARIABLES, FROM DE SUBMIT FORM
+	$title= $_POST['title'];
+	$stitle = addslashes(strip_tags($title));
+	$body= $_POST['body'];
+	$sbody = addslashes(strip_tags($body));
 $time = date("Y-m-d G:i:s");
-$sql = "INSERT INTO Blog_Posts (Title, Body, Date) VALUES ('$_POST[title]', '{$_POST['body']}', '$time')";
+$sql = "INSERT INTO Blog_Posts (Title, Body, Date) VALUES ('$stitle', '$sbody', '$time')";
 
 if (!mysqli_query($con,$sql))
 {
