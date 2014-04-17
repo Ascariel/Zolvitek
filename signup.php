@@ -24,8 +24,8 @@ $(document).ready(function(){
 
 		setVariables();
 
-		console.log(correctlyChecked);
-		console.log(username);
+
+		//console.log(username);
 
 
 
@@ -57,22 +57,38 @@ function setVariables(){
 
 			$.ajax({
 
-				url: "process_signup",
+				url: "/process_signup.php",
+				dataType: "JSON",
 				data: {
 					 zusername : username,
 					 zpassword : password,
 					 zfname : fname,
 					 zlname : lname,
 					 zemail : email,
-					 zcountry : country
+					 zcountry : country,
+					 action: 'signup'
 					},
 				success: function(response){
-					console.log('ajax response succesful')
-					if(response){alert('username or email already in use')}
+					console.log('ajax response succesful');
+					var res = response;
+					console.log(res)
+					console.log(res[0]);
+					console.log(res[1]);
 
+					if(res === 'User Registered'){alert('user was registered succesfully');}
+
+					if(res[0] === 'usernameExists'){alert('user exists');}
+					if(res[1] === 'emailExists'){alert('email exists');}
+
+
+
+					if(!response){alert('username or email already in use');}
+					console.log('user registered');
+					window.location = 'protected_area.php'
 
 					},
 				error: function(xhr, textStatus, errorThrown) {
+
 
 					}
 
@@ -80,7 +96,7 @@ function setVariables(){
 
 
 
-			});//AJAX CLOSURE
+			}); //AJAX CLOSURE
 
 
 
@@ -107,9 +123,9 @@ function setVariables(){
 			if(country == ""){ $('#country').css('border', '#FF4D4D solid 1px');}
 
 
-		};
+		}; //close input check
 
-	};//close input check
+	};//close set variables
  })//close event
 
 });//close document.ready

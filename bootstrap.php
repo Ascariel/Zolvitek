@@ -1,4 +1,6 @@
-
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,22 +26,78 @@
     <link href="jumbotron-narrow.css" rel="stylesheet">
 
 <script>
-//POP UPS LOGIN MSG WHEN CLICKING ON LOGIN BUTTON
+
+
+
+
+
+
+//STARTS SCRIPTS WHEN PAGE IS READY
 $(document).ready(function(){
-	$('#login_button').click(function(event){
+	$('#login_button').click(function(event){//POP UPS LOGIN SCREEN WHEN CLICKING ON LOGIN BUTTON, THEN WAITS
 		event.preventDefault();
 		$('#muted_layer').fadeIn(800);
 		$('#login_div').fadeIn(800);
-		//setTimeout(function(){ $('#login_div').fadeOut('slow'); }, 6000);
-
-	});
-	$('#login_submit').click(function(event){
+		});
+	$('#log_off').click(function(event){//DESTROYS SESSION WHEN LOGOFF IS CLICKED
 		event.preventDefault();
-		$('#login_div').fadeOut(800);
-		$('#muted_layer').fadeOut(800);
+		<?php session_unset(); 	?>
 	});
 
-});
+	$('#login_submit').click(function(event){//TRIGGERS WHEN SUBMIT IS CLICKED, DEFINING VARIABLES
+		event.preventDefault();
+		$('#failedMsg').hide();//RESETS ERROR MSGS
+		var email = $('#loginEmail').val();
+		var password = $('#loginPassword').val();
+
+		function loginResult(resultA){//CHECK IF AJAX RESPONSE IS TRUE AND EXECUTES LOGIN SUCCES ACTIONS, ELSE PROMPTS ERRORS
+		if(resultA == 'Login Aproved'){
+			$('.form-control').css('border', '1.7px solid #B7BBBD'); //RESETS FORM BORDERS TO DEFAULT
+			$("#verificationMsg").fadeIn(600, function(){
+				$('#login_div').fadeOut(1100);
+				$('#muted_layer').fadeOut(1100);
+				setTimeout(function(){window.location = 'protected_area.php';}, 900);//REDIRECTS TO PROTECTED AREA AFTER TIMEOUT
+					});//close fadeIn callback function
+				}//close if Aproved...
+		else {
+			$('#failedMsg').fadeIn(300);
+			$('#loginEmail').css('border', 'red solid 2px');
+			$('#loginPassword').css('border', 'red solid 2px');
+			 console.log('Wrong email and password combination, please try again...')
+			}
+		}; //close loginResult function
+
+
+		function loginAjax(emailA, passwordA, callback){
+			$.ajax({
+				url: "/process_signup.php",
+				//dataType: "JSON",
+				data: {
+				zusername : 'login',
+				zpassword : passwordA,
+				zfname : 'login',
+				zlname : 'login',
+				zemail : emailA,
+				zcountry : 'login',
+				action : 'login'
+				},
+			success: function(response){
+				var resd = JSON.parse(response);
+				console.log('loginAjax response succesful');
+				console.log(response);
+				console.log(resd);
+				callback(resd);//CALLS LOGINRESULT() TO DETERMINE IF LOGIN WAS SUCCESFUL OR NOT
+				},
+			error: function(xhr, textStatus, errorThrown) {
+				}
+
+			 }); //AJAX CLOSURE
+		}; //close loginAjax function
+
+		loginAjax(email, password, loginResult); //STARTS AJAX CALL, AND AFTER ITS DONE EXECUTES CALLBACK TO CHECK LOGIN RESULT
+	}); //close submit click function
+
+}); //close document.ready function
 </script>
 
   </head>
@@ -58,15 +116,23 @@ $(document).ready(function(){
 	  <div style="text-align:center; margin-top:2%; margin-bottom:10%;">
 	  	<label><h1 style="color: black;">Login Form</h1></label>
 	  </div>
-	    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+
+	    <div class="col-sm-12" id="verificationMsg" style="top:110px; left:140px; display:none; color:green; position:absolute; z-index:4;">
+	      <h5><i>Login Succesful...</i></h5>
+	    </div>
+	    <div class="col-sm-12" id="failedMsg" style="top:110px; left:70px; display:none; color:red; position:absolute; z-index:5;">
+	      <h5><i>Wrong username and password combination</i></h5>
+	    </div>
+
+	    <label for="loginEmail" class="col-sm-2 control-label">Email</label>
 	    <div class="col-sm-10">
-	      <input class="form-control" id="inputEmail3" placeholder="Email" type="email">
+	      <input class="form-control" id="loginEmail" placeholder="Email" type="email">
 	    </div>
 	  </div>
 	  <div class="form-group">
-	    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+	    <label for="loginPassword" class="col-sm-2 control-label">Password</label>
 	    <div class="col-sm-10">
-	      <input class="form-control" id="inputPassword3" placeholder="Password" type="password">
+	      <input class="form-control" id="loginPassword" placeholder="Password" type="password">
 	    </div>
 	  </div>
 	  <div class="form-group">
@@ -97,7 +163,7 @@ $(document).ready(function(){
           <li class="active"><a class="home" href="/testy.php">Home</a></li>
           <li id="login_button"><a href="" >Log in</a></li>
           <li><a href="signup.php">Sign Up</a></li>
-          <li><a href="/about.php">About</a></li>
+          <li><a id="log_off" href="/about.php">About</a></li>
         </ul>
         <a href="/testy.php"><img id="logo" src="/images/logo.jpg"></a>
         <h3 class="text-muted" ><p style="margin-left: 100px;">Zolvitek</p></h3>
@@ -114,7 +180,7 @@ $(document).ready(function(){
         <p class="lead" style="font-size: 17.3px; text-align:justify;"><i>Times are changing...Having merely a great idea is not enough. In a globalized world,
          being able to differenciate yourself from others and add value to your ideas is the best way to succed. That's
           where we come in...Let us further your dreams through website and plataform design!</i></p>
-        <p><a class="btn btn-lg btn-success" href="/learn.php" role="button">Learn about Zolvitek!</a></p>
+        <p><a class="btn btn-lg btn-success" href="/protected_area.php" role="button">Learn about Zolvitek!</a></p>
       </div>
 
 
@@ -127,7 +193,7 @@ $(document).ready(function(){
       <!-- Left Body Section Links -->
         <div class="col-lg-6">
 
-		 <a class="body_section_links" href="/skills.php">
+		 <a class="body_section_links" href="/bootstrap.php">
 		  <div class="body_links">
 
            	 <h4>Skills and Services </h4>

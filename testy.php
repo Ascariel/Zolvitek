@@ -76,7 +76,7 @@ $(document).ready(function(){
         <p class="lead" style="font-size: 17.3px; text-align:justify;"><i>Times are changing...Having merely a great idea is not enough. In a globalized world,
          being able to differenciate yourself from others and add value to your ideas is the best way to succed. That's
           where we come in...Let us further your dreams through website and plataform design!</i></p>
-        <p><a class="btn btn-lg btn-success" href="/learn.php" role="button">Learn about Zolvitek!</a></p>
+        <p><a class="btn btn-lg btn-success" href="/protected_area.php" role="button">Learn about Zolvitek!</a></p>
       </div>
 
 
@@ -89,7 +89,7 @@ $(document).ready(function(){
       <!-- Left Body Section Links -->
         <div class="col-lg-6">
 
-		 <a class="body_section_links" href="/skills.php">
+		 <a class="body_section_links" href="/bootstrap.php">
 		  <div class="body_links">
 
            	 <h4>Skills and Services </h4>

@@ -1,4 +1,3 @@
-
 <?php
 //CONNECT TO DATABASE
 global $con; //make $con available in the function scope
