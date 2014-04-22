@@ -48,6 +48,7 @@ function registerUser($username, $password, $fname,$lname, $email, $country){
 		die('There is an error in the INSERT INTO statement: '. mysqli_error($con));
 		}
 	$_SESSION['email'] = $email; //SETS AN ID TO A SESSION VARIABLE THAT WILL BE CHECKED LATER TO DETECT LOGIN STATE AND PERMISIONS
+	$_SESSION['username'] = $username;
 	return true;
 };
 

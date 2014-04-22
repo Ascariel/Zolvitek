@@ -29,6 +29,7 @@ if($action == 'login'){//CREATES PATH SPECIFIC TO LOGIN CALLS
 	if($loginAproved){
 		$loginResult = 'Login Aproved';
 		$loginResult = json_encode($loginResult);
+		$_SESSION['username'] = $username;
 		echo $loginResult;
 		}
 	else{

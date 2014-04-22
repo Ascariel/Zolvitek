@@ -54,11 +54,11 @@ else{
 <div class="container" style="">
 <h1>
 <?php
-	if(!isset($_SESSION['email'])){
+	//if(!isset($_SESSION['email'])){
 	//	echo "You do not have permision rights to view this content, please register with us for full access";
 	//	echo '<br><br><br><b><i> Please register or login to gain full access to our resources.</i></b></br>';
 	//	echo 'setTimeOut(function(){window.location = "signup.php";}, 3000);';
-	}
+//	}
 
 ?>
 </h1>

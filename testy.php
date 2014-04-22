@@ -1,4 +1,7 @@
+<?php
+session_start();
 
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,31 +27,158 @@
     <link href="jumbotron-narrow.css" rel="stylesheet">
 
 <script>
-//POP UPS LOGIN MSG WHEN CLICKING ON LOGIN BUTTON
+
+//STARTS SCRIPTS WHEN PAGE IS READY
 $(document).ready(function(){
-	$('#login_button').click(function(event){
+	$('#login_user_button').click(function(event){//POP UPS LOGIN SCREEN WHEN CLICKING ON LOGIN BUTTON, THEN WAITS
 		event.preventDefault();
-		$('#login_div').fadeIn('slow');
-			setTimeout(function(){ $('#login_div').fadeOut('slow'); }, 6000);
+		$('#muted_layer').fadeIn(800);
+		$('#login_div').fadeIn(800);
+	});
+	$('#logoff').click(function(event){//DESTROYS SESSION WHEN LOGOFF IS CLICKED error detected, session unset triggers even when loggof is not clicked...
+		event.preventDefault();
+		alert('asda');
+		//xmlhttp = new XMLHttpRequest();
+		//xmlhttp.open("GET","zsession_requests.php?action=log_off", true);
+		//xmlhttp.send();
 
 	});
 
-});
+	$('#login_submit').click(function(event){//TRIGGERS WHEN SUBMIT IS CLICKED, DEFINING VARIABLES
+		event.preventDefault();
+		$('#failedMsg').hide();//RESETS ERROR MSGS
+		var email = $('#loginEmail').val();
+		var password = $('#loginPassword').val();
+
+		function loginResult(resultA){//CHECK IF AJAX RESPONSE IS TRUE AND EXECUTES LOGIN SUCCES ACTIONS, ELSE PROMPTS ERRORS
+			if(resultA == 'Login Aproved'){
+				$('.form-control').css('border', '1.7px solid #B7BBBD'); //RESETS FORM BORDERS TO DEFAULT
+				$("#verificationMsg").fadeIn(600, function(){
+					$('#login_div').fadeOut(1100);
+					$('#muted_layer').fadeOut(1100);
+					$('#signup_Lbutton').replaceWith("<li id ='logoff'><a href='process_signup.php'>Log Off</a></li>");
+					//setTimeout(function(){window.location = 'protected_area.php';}, 900);//REDIRECTS TO PROTECTED AREA AFTER TIMEOUT
+				});//close fadeIn callback function
+
+
+			}//close if Aproved...
+			else {
+				$('#failedMsg').fadeIn(300);
+				$('#loginEmail').css('border', 'red solid 2px');
+				$('#loginPassword').css('border', 'red solid 2px');
+				console.log('Wrong email and password combination, please try again...')
+			}
+		}; //close loginResult function
+
+
+		function loginAjax(emailA, passwordA, LoginResultCall){
+			$.ajax({
+				url: "/process_signup.php",
+				//dataType: "JSON",
+				data: {
+					zusername : 'login',
+					zpassword : passwordA,
+					zfname : 'login',
+					zlname : 'login',
+					zemail : emailA,
+					zcountry : 'login',
+					action : 'login'
+				},
+				success: function(response){
+
+					console.log('loginAjax response succesful');
+					console.log(response);
+					var resd = JSON.parse(response);
+					console.log(resd);
+					LoginResultCall(resd);//CALLS LOGINRESULT() TO DETERMINE IF LOGIN WAS SUCCESFUL OR NOT
+
+				},
+				error: function(xhr, textStatus, errorThrown) {
+				}
+
+			}); //AJAX CLOSURE
+		}; //close loginAjax function
+
+		function loggedIn(usernameA){
+
+		$("#login_button").fadeOut();
+		$("#login_button").html('<a>' + sessionUser + '</a>');
+		$("#login_button").fadeIn();
+			};//close loggIn function
+
+		loginAjax(email, password, loginResult); //STARTS AJAX CALL, AND AFTER ITS DONE EXECUTES CALLBACK TO CHECK LOGIN RESULT
+
+	}); //close submit click function
+
+	//EXECUTES CHANGES WHEN USER IS LOGGED
+
+}); //close document.ready function
 </script>
 
   </head>
 
   <body>
 
+  <div id="muted_layer" style="width:100%; height: 1000px; display:none; opacity: 0.7; position:absolute; z-index: 2;background-color: black;border: 2px solid black;margin-top: -50px;">
+  </div><!-- /MUTED LAYER -->
 
+  <!-- SIGN UP POPUP-->
 
-    <div class="container">
+<div id="login_div" style="height: 450px; width: 450px; position: absolute; left: 30%; top: 10%; border: 2px solid black; border-radius: 10px; background: url('/images/popuporangebkgrnd.jpg') no-repeat center center ; z-index: 3; display: none;">
+	<div style="padding:5%;">
+	<form class="form-horizontal" role="form">
+	  <div class="form-group">
+	  <div style="text-align:center; margin-top:2%; margin-bottom:10%;">
+	  	<label><h1 style="color: black;">Login Form</h1></label>
+	  </div>
+
+	    <div class="col-sm-12" id="verificationMsg" style="top:110px; left:140px; display:none; color:green; position:absolute; z-index:4;">
+	      <h5><i>Login Succesful...</i></h5>
+	    </div>
+	    <div class="col-sm-12" id="failedMsg" style="top:110px; left:70px; display:none; color:red; position:absolute; z-index:5;">
+	      <h5><i>Wrong username and password combination</i></h5>
+	    </div>
+
+	    <label for="loginEmail" class="col-sm-2 control-label">Email</label>
+	    <div class="col-sm-10">
+	      <input class="form-control" id="loginEmail" placeholder="Email" type="email">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="loginPassword" class="col-sm-2 control-label">Password</label>
+	    <div class="col-sm-10">
+	      <input class="form-control" id="loginPassword" placeholder="Password" type="password">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+	      <div class="checkbox">
+	        <label>
+	          <input type="checkbox"> Remember me
+	        </label>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+	      <button style=" color: white; background-color: green; border:none;" id="login_submit" type="submit" class="btn btn-default"><strong>Log in</strong></button>
+	    </div>
+	  </div>
+	</form>
+  </div>
+
+</div>
+
+</div><!--LOGIN DIV END -->
+
+	<!--HEADER BUTTONS -->
+    <div class="container" style="position:relative; z-index:1">
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a class="home" href="/testy.php">Home</a></li>
-          <li id="login_button"><a href="" >Log in</a></li>
-          <li><a href="signup.php">Sign Up</a></li>
-          <li><a href="/about.php">About</a></li>
+          <li id="login_user_button"><a href="" >Log in</a></li>
+          <li id="signup_Lbutton"><a  href="signup.php">Sign Up</a></li>
+          <li id="log_off"><a href="/about.php">About</a></li>
         </ul>
         <a href="/testy.php"><img id="logo" src="/images/logo.jpg"></a>
         <h3 class="text-muted" ><p style="margin-left: 100px;">Zolvitek</p></h3>
@@ -56,18 +186,7 @@ $(document).ready(function(){
       </div>
 
 
-	<!-- SIGN UP POPUP-->
 
-	<div  id="login_div" style='height:450px; width:400px; text-align:center; position:absolute; margin-left:10%; border:2px solid black; background-color:#FF8C00; z-index:2; display:none;' >
-
-    	<div class="row">
-    		<div class="col-md-12">
-    		<h1>Members Log In</h1>
-		</div>
-
-
-    	</div>
-	</div>
 
 		<!-- Main Title Screen -->
       <div class="jumbotron">
@@ -167,8 +286,10 @@ $(document).ready(function(){
 
 
 
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
   </body>
 </html>
+
