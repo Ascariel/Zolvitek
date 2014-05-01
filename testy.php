@@ -177,6 +177,7 @@ $(document).ready(function(){
         <ul class="nav nav-pills pull-right">
           <li class="active"><a class="home" href="/testy.php">Home</a></li>
           <li id="login_user_button"><a href="" >Log in</a></li>
+          <li id="profile"><a  href="zprofile.php">Profile</a></li>
           <li id="signup_Lbutton"><a  href="signup.php">Sign Up</a></li>
           <li id="log_off"><a href="/about.php">About</a></li>
         </ul>
